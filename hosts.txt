@@ -1,0 +1,13 @@
+[loadbalancer]
+vb_chefstarter
+
+[webserver]
+vb_ansibleweb
+vb_chefstarter
+
+[database]
+vb_ansibleother
+
+[control]
+vb_ansiblemaster
+

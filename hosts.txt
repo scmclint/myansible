@@ -9,5 +9,5 @@ vb_chefstarter
 vb_ansibleother
 
 [control]
-vb_ansiblemaster
+vb_ansiblemaster ansible_connection=local
 

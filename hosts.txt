@@ -1,13 +1,15 @@
 [loadbalancer]
-vb_chefstarter
+chef-starter
 
 [webserver]
-vb_ansibleweb
-vb_chefstarter
+ansible-web
+chef-starter
 
 [database]
-vb_ansibleother
+ansible-db
 
 [control]
-vb_ansiblemaster ansible_connection=local
+ansible-mstr ansible_connection=local
 
+[logger]
+ansible-other

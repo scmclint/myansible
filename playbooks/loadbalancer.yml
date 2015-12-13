@@ -16,7 +16,7 @@
         service: name=nginx state=started enabled=yes
 
       - name: configure nginx site
-        template: src=/home/clint/workspace/myansible/nginx.conf dest=/etc/nginx/sites-available/demo mode=0755
+        template: src=/home/clint/workspace/myansible/nginx.conf.j2 dest=/etc/nginx/sites-available/demo mode=0755
         notify: restart nginx
 
       - name: deactivate default nginx site

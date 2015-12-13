@@ -17,8 +17,31 @@
       - name: ensure mod_swgi enabled
         apache2_module: state=present name=wsgi
         notify: restart apache2
-       
+        
+      - name: copy demo app source
+        copy: src=/home/clint/workspace/myansible/app/ dest=/var/www/demo mode=0755
+        notify: restart apache2
+        
+      - name: copy apache virtual host config
+        copy: src=/home/clint/workspace/myansible/demo.conf dest=/etc/apache2/sites-available mode=0755
+        notify: restart apache2 
+
+      - name: setup pip virtualenv
+        pip:  requirements=/var/www/demo/requirements.txt virtualenv=/var/www/demo/.venv
+        notify: restart apache2 
+        
+      - name: deactivate default apache site
+        file: path=/etc/apache2/sites-enabled/000-default.conf state=absent
+        notify: restart apache2 
+
+      - name: activate default apache site
+        file: src=/etc/apache2/sites-available/demo.conf dest=/etc/apache2/sites-enabled/demo.conf state=link
+        notify: restart apache2 
+        
+      - name: adding load balancer to /etc/hosts
+        lineinfile: dest=/etc/hosts state=present line='192.168.56.108  lb01'        
+        
     handlers:
-      - name: restart apache2 web server
+      - name: restart apache2
         service: name=apache2 state=restarted
         

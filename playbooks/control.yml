@@ -6,4 +6,6 @@
         apt: name={{item}} state=present update-cache=yes
         with_items:
           - curl
-            
+
+      - name: adding load balancer to /etc/hosts
+        lineinfile: dest=/etc/hosts state=present line='192.168.56.108  lb01'          

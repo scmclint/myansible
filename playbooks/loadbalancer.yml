@@ -2,9 +2,35 @@
   - hosts: loadbalancer
     become: true
     tasks:  
-    - name: install nginx
-      apt:  name=nginx state=present update_cache=yes
+        
+      - name: stop mysql 
+        service: name=mysql state=stopped enabled=no
+
+      - name: remove mysql-server
+        apt: name=mysql-server state=absent update_cache=yes
+
+      - name: install nginx
+        apt:  name=nginx state=present update_cache=yes
       
       - name: ensure nginx started
         service: name=nginx state=started enabled=yes
+
+      - name: configure nginx site
+        template: src=/home/clint/workspace/myansible/nginx.conf dest=/etc/nginx/sites-available/demo mode=0755
+        notify: restart nginx
+
+      - name: deactivate default nginx site
+        file: path=/etc/nginx/sites-enabled/default state=absent
+        notify: restart nginx 
+
+      - name: activate default nginx site
+        file: src=/etc/nginx/sites-available/demo dest=/etc/nginx/sites-enabled/demo state=link
+        notify: restart nginx
+        
+      - name: adding load balancer to /etc/hosts
+        lineinfile: dest=/etc/hosts state=present line='192.168.56.108  lb01'        
+        
+    handlers:
+      - name: restart nginx
+        service: name=nginx state=restarted
       

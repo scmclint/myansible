@@ -7,3 +7,5 @@
         
       - name: ensure mysql started
         service: name=mysql state=started enabled=yes            
+        
+      - lineinfile: dest=/etc/hosts state=present line='192.168.56.108  lb01'

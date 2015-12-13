@@ -1,9 +1,9 @@
 [loadbalancer]
-chef-starter
+lb01
 
 [webserver]
 ansible-web
-chef-starter
+ansible-other
 
 [database]
 ansible-db

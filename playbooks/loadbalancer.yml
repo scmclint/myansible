@@ -3,11 +3,10 @@
     become: true
     tasks:  
         
-      - name: stop mysql 
-        service: name=mysql state=stopped enabled=no
-
-      - name: remove mysql-server
-        apt: name=mysql-server state=absent update_cache=yes
+      - name: install tools
+        apt: name={{item}} state=present update_cache=yes
+        with_items:
+          - python-httplib2
 
       - name: install nginx
         apt:  name=nginx state=present update_cache=yes
@@ -21,6 +20,7 @@
 
       - name: deactivate default nginx site
         file: path=/etc/nginx/sites-enabled/default state=absent
+        wait_for: port=80 state=drained
         notify: restart nginx 
 
       - name: activate default nginx site
@@ -33,4 +33,6 @@
     handlers:
       - name: restart nginx
         service: name=nginx state=restarted
+        wait_for: port=80
+        
       

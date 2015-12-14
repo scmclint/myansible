@@ -26,5 +26,5 @@
         
     handlers:
       - name: restart mysql      
-        service: name=mysql state=restarted priv=demo.*:ALL host='%' state=present
+        service: name=mysql state=restarted 
         

@@ -1,12 +1,6 @@
 ---
   - hosts: control
     become: true
-    tasks:
-      - name: install tools
-        apt: name={{item}} state=present update-cache=yes
-        with_items:
-          - curl
-          - python-httplib2          
-
-      - name: adding load balancer to /etc/hosts
-        lineinfile: dest=/etc/hosts state=present line='192.168.56.108  lb01'          
+    roles: 
+      - control
+        

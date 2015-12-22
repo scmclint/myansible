@@ -3,10 +3,9 @@
     become: true
     roles:
       - role: mysql
+        db_name: "{{ db_name }}"
         db_user_name: "{{ db_user }}"
         db_user_pass: "{{ vault_db_pass }}"
         db_user_host: '%' 
-
-        
-
+        db_admin_pass: "{{ vault_db_admin_pass }}"
         

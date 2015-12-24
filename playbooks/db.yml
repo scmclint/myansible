@@ -1,0 +1,13 @@
+---
+- hosts: control
+  tasks:
+
+    - name: verify end-to-end db response
+      uri: url=http://{{item}}/db return_content=yes
+      with_items: groups.loadbalancer
+      register: lb_db
+
+    - fail: msg="db failed to return expected content"
+      when: "'Database Connected from' not in item.content"
+#      debug: msg="lb_db.results"      
+      with_items: "{{lb_db.results}}"  
